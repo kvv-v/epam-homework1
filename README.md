@@ -7,7 +7,7 @@ echo '$interfaceName:$IPaddress:$default'
 default=`ip r | grep default | awk '{print $5}'`
 for interface in $(ip a | grep '<' | awk '{print substr($2, 1, length($2)-1)}')
 do
-        echo -n $interface:$(ip address show $interface | grep inet | grep -v inet6 | awk '{print $2}')
+        echo -n $interface:$(ip a show $interface | grep inet | grep -v inet6 | awk '{print $2}')
         if [ $default = $interface ]
         then
                 echo :default
@@ -24,13 +24,13 @@ default=`ip r | grep default | awk '{print $5}'`
 ```
 ip a | grep '<' | awk '{print substr($2, 1, length($2)-1)}'
 ```
-Символ '<' встречается только в строке с интерфейсами, утилита awk возвращает название интерфейса удаляет символ ':'
+Символ '<' встречается только в строке с интерфейсами, утилита awk возвращает название интерфейса и удаляет символ ':'
 
 Для каждого интерфейса выводим его название и ip, при этом не переносим строку:
 ```
 echo -n $interface:$(ip address show $interface | grep inet | grep -v inet6 | awk '{print $2}')
 ```
-Берется информация только об одном интерфейсе, выделяем строку с inet с помощью grep и оставляем только ip адресс с помощью awk
+Берем информация только об одном интерфейсе, выделяем строку с inet с помощью grep и оставляем только ip адресс с помощью awk
 
 Если если интерфейс стандартный, то добавляем в конце слово default, иначе перевод строки:
 ```
